@@ -1,0 +1,38 @@
+name: build-and-test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  macos-llvm-23:
+    runs-on: macos-14
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Install LLVM and test dependencies
+        run: brew install llvm@23 cmake ninja lit
+
+      - name: Configure
+        run: |
+          LLVM_PREFIX="$(brew --prefix llvm@23)"
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DLLVM_DIR="$LLVM_PREFIX/lib/cmake/llvm" \
+            -DSR_LLVM_INSTALL_DIR="$LLVM_PREFIX"
+
+      - name: Build without warnings
+        run: cmake --build build --parallel
+
+      - name: Run lit and FileCheck regressions
+        run: cmake --build build --target check-strength-reduction
+
+      - name: Run CTest integration
+        run: ctest --test-dir build --output-on-failure
