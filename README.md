@@ -233,14 +233,6 @@ This follows LLVM's documented [new pass manager plugin model](https://llvm.org/
 
 > Built a C++ out-of-tree LLVM new-pass-manager plugin that strength-reduces scalar power-of-two `mul`/`udiv` operations, applies refinement-correct `nuw`/`nsw`/`exact` handling, and is regression-tested with lit/FileCheck against LLVM 23; documented overlap with LLVM's production InstCombine pass.
 
-## Related accelerator project
-
-The companion RTL project described in the supplied self-repairing systolic
-accelerator brief is in [`systolic_accelerator/`](systolic_accelerator/). It
-contains the 8×8 MAC array, checksum detection, spare-column repair controller,
-fault injection, baseline/optimized PPA variants, Icarus regression test, and
-OpenLane 2 Sky130 configuration.
-
 ## Primary references
 
 - [Writing an LLVM new-PM pass and registering a plugin](https://llvm.org/docs/WritingAnLLVMNewPMPass.html)

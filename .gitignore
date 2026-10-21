@@ -2,6 +2,3 @@
 /cmake-build-*/
 /compile_commands.json
 .DS_Store
-systolic_accelerator/build/
-systolic_accelerator/*.vcd
-systolic_accelerator/tb/*.xml
